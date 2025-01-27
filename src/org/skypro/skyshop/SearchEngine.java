@@ -1,5 +1,3 @@
-package org.skypro.skyshop;
-
 public class SearchEngine {
     private final Searchable[] searchables;
     private int count = 0;
@@ -17,6 +15,7 @@ public class SearchEngine {
         }
     }
 
+    // Метод для поиска одного лучшего результата
     public Searchable findBestMatch(String search) throws BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = 0;
@@ -38,6 +37,25 @@ public class SearchEngine {
         return bestMatch;
     }
 
+    // Метод для поиска нескольких результатов
+    public Searchable[] search(String query) {
+        Searchable[] results = new Searchable[5];
+        int foundCount = 0;
+
+        for (Searchable searchable : searchables) {
+            if (searchable != null && searchable.getSearchTerm().contains(query)) {
+                results[foundCount] = searchable;
+                foundCount++;
+                if (foundCount == 5) {
+                    break;
+                }
+            }
+        }
+
+        return results;
+    }
+
+    // Вспомогательный метод для подсчета вхождений
     private int countOccurrences(String str, String substring) {
         int count = 0;
         int index = 0;
