@@ -10,7 +10,26 @@ import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) {
-        // Создание продуктов
+        // Обработка исключений при создании продуктов
+        try {
+            Product invalidProduct = new SimpleProduct("", 50);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        try {
+            Product invalidPriceProduct = new SimpleProduct("Invalid Price", -10);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        try {
+            Product invalidDiscountProduct = new DiscountedProduct("Invalid Discount", 50, 110);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // Создание продуктов и статей
         Product apple = new SimpleProduct("Apple", 50);
         Product banana = new DiscountedProduct("Banana", 30, 10);
         Product orange = new FixPriceProduct("Orange");
@@ -18,7 +37,6 @@ public class App {
         Product pineapple = new DiscountedProduct("Pineapple", 70, 20);
         Product kiwi = new FixPriceProduct("Kiwi");
 
-        // Создание статей
         Article appleArticle = new Article("Apple Benefits", "Apples are rich in fiber and vitamins.");
         Article bananaArticle = new Article("Banana Facts", "Bananas are a great source of potassium.");
 
@@ -33,14 +51,20 @@ public class App {
         searchEngine.add(appleArticle);
         searchEngine.add(bananaArticle);
 
-        System.out.println("Результаты поиска по запросу 'Apple':");
-        System.out.println(Arrays.toString(searchEngine.search("Apple")));
+        // Поиск лучшего результата
+        try {
+            Searchable bestMatch = searchEngine.findBestMatch("Apple");
+            System.out.println("Найден лучший результат: " + bestMatch.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
-        System.out.println("Результаты поиска по запросу 'Banana':");
-        System.out.println(Arrays.toString(searchEngine.search("Banana")));
-
-        System.out.println("Результаты поиска по запросу 'Orange':");
-        System.out.println(Arrays.toString(searchEngine.search("Orange")));
+        try {
+            Searchable bestMatch = searchEngine.findBestMatch("Grape");
+            System.out.println("Найден лучший результат: " + bestMatch.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
         // Работа с корзиной
         ProductBasket basket = new ProductBasket();
