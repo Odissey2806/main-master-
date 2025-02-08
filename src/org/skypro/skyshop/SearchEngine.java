@@ -1,22 +1,29 @@
-public class SearchEngine {
-    private final Searchable[] searchables;
-    private int count = 0;
+package org.skypro.skyshop;
 
-    public SearchEngine(int capacity) {
-        this.searchables = new Searchable[capacity];
-    }
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchEngine {
+    private final List<Searchable> searchables = new ArrayList<>();
 
     public void add(Searchable searchable) {
-        if (count < searchables.length) {
-            searchables[count] = searchable;
-            count++;
-        } else {
-            System.out.println("Невозможно добавить элемент: поисковый движок заполнен.");
-        }
+        searchables.add(searchable);
     }
 
-    // Метод для поиска одного лучшего результата
-    public Searchable findBestMatch(String search) throws BestResultNotFound {
+    public List<Searchable> findAllMatches(String search) throws BestResultNotFound {
+        List<Searchable> matches = new ArrayList<>();
+        for (Searchable searchable : searchables) {
+            if (searchable != null && searchable.getSearchTerm().contains(search)) {
+                matches.add(searchable);
+            }
+        }
+        if (matches.isEmpty()) {
+            throw new BestResultNotFound("Не найдено подходящего результата для запроса: " + search);
+        }
+        return matches;
+    }
+
+     public Searchable findBestMatch(String search) throws BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = 0;
 
@@ -37,7 +44,6 @@ public class SearchEngine {
         return bestMatch;
     }
 
-    // Метод для поиска нескольких результатов
     public Searchable[] search(String query) {
         Searchable[] results = new Searchable[5];
         int foundCount = 0;
@@ -55,7 +61,6 @@ public class SearchEngine {
         return results;
     }
 
-    // Вспомогательный метод для подсчета вхождений
     private int countOccurrences(String str, String substring) {
         int count = 0;
         int index = 0;

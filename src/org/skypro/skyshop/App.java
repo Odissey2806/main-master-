@@ -6,7 +6,7 @@ import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 import org.skypro.skyshop.article.Article;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
@@ -77,10 +77,6 @@ public class App {
         basket.addProduct(pineapple);
         System.out.println();
 
-        System.out.println("Попытка добавить продукт в заполненную корзину:");
-        basket.addProduct(kiwi);
-        System.out.println();
-
         System.out.println("Печать содержимого корзины:");
         basket.printBasket();
         System.out.println();
@@ -109,5 +105,24 @@ public class App {
 
         System.out.println("Поиск товара 'Apple' в пустой корзине:");
         System.out.println("Есть ли в корзине Apple? " + basket.containsProduct("Apple"));
+
+        // Удаление продуктов по имени
+        List<Product> removedProducts = basket.removeProductByName("Apple");
+        System.out.println("\nУдаление продуктов по имени:");
+        for (Product product : removedProducts) {
+            System.out.println(product);
+        }
+
+        System.out.println("\nСодержимое корзины после удаления:");
+        basket.printBasket();
+
+        // Попытка удалить несуществующий продукт
+        List<Product> emptyList = basket.removeProductByName("Grape");
+        if (emptyList.isEmpty()) {
+            System.out.println("\nСписок удаленных продуктов пуст.");
+        }
+
+        System.out.println("\nСодержимое корзины:");
+        basket.printBasket();
     }
 }
