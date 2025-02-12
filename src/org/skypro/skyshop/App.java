@@ -9,6 +9,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -121,9 +122,9 @@ public class App {
         basket.printBasket();
 
         System.out.println("\nРезультаты поиска по запросу 'Apple':");
-        Map<String, Searchable> searchResults = searchEngine.search("Apple");
-        for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
-            System.out.println(entry.getKey() + " — " + entry.getValue().getStringRepresentation());
+        Set<Searchable> searchResults = searchEngine.search("Apple");
+        for (Searchable result : searchResults) {
+            System.out.println(result.getStringRepresentation());
         }
     }
 }
