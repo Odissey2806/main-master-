@@ -11,8 +11,8 @@ public class SearchEngine {
         searchables.add(searchable);
     }
 
-    public Map<String, Searchable> search(String query) {
-        Map<String, Searchable> results = new TreeMap<>();
+    public List<Searchable> findBestMatch(String search) throws BestResultNotFound {
+        List<Searchable> matches = new ArrayList<>();
         for (Searchable searchable : searchables) {
             if (searchable != null && searchable.getSearchTerm().contains(query)) {
                 results.put(searchable.getName(), searchable);
