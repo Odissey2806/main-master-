@@ -8,13 +8,15 @@ import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
-        //       Product apple = new SimpleProduct("Apple", 50);
-        //       Product banana = new DiscountedProduct("Banana", 30,10);
-        //       Product orange = new FixPriceProduct("Orange");
-        //       Product mango = new SimpleProduct("Mango", 60);
-        //       Product pineapple = new DiscountedProduct("Pineapple", 70,20);
-        //       Product kiwi = new FixPriceProduct("Kiwi");
+        // Создание продуктов
+        Product apple = new SimpleProduct("Apple", 50);
+        Product banana = new DiscountedProduct("Banana", 30, 10);
+        Product orange = new FixPriceProduct("Orange");
+        Product mango = new SimpleProduct("Mango", 60);
+        Product pineapple = new DiscountedProduct("Pineapple", 70, 20);
+        Product kiwi = new FixPriceProduct("Kiwi");
 
+        // Создание статей
         Article appleArticle = new Article("Apple Benefits", "Apples are rich in fiber and vitamins.");
         Article bananaArticle = new Article("Banana Facts", "Bananas are a great source of potassium.");
 
@@ -80,17 +82,6 @@ public class App {
 
         System.out.println("Общая стоимость пустой корзины: " + basket.getTotalCost());
         System.out.println();
-
-        //       System.out.println("Поиск товара 'Apple' в пустой корзине:");
-        //      System.out.println("Есть ли в корзине Apple? " + basket.containsProduct("Apple"));
-        List<Product> removedProducts = basket.removeProductByName("Apple");
-        System.out.println("\nУдаление продуктов по имени:");
-        for (Product product : removedProducts) {
-            System.out.println(product);
-        }
-
-        System.out.println("\nСодержимое корзины после удаления:");
-        basket.printBasket();
 
         // Попытка удалить несуществующий продукт
         List<Product> emptyList = basket.removeProductByName("Grape");
