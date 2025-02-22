@@ -1,5 +1,7 @@
 package org.skypro.skyshop.product;
 
+import org.skypro.skyshop.product.Product;
+
 public class FixPriceProduct extends Product {
 
     private static final int FIXED_PRICE = 100;

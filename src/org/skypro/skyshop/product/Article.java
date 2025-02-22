@@ -2,7 +2,6 @@ package org.skypro.skyshop.product;
 
 import org.skypro.skyshop.Searchable;
 
-public final class Article implements Searchable {
     private final String title;
     private final String content;
 
@@ -13,12 +12,10 @@ public final class Article implements Searchable {
 
     @Override
     public String getSearchTerm() {
-        return toString();
     }
 
     @Override
     public String getContentType() {
-        return "ARTICLE";
     }
 
     @Override
@@ -28,6 +25,5 @@ public final class Article implements Searchable {
 
     @Override
     public String toString() {
-        return title + "\n" + content;
     }
 }

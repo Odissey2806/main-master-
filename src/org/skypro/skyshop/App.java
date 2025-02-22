@@ -2,40 +2,18 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.*;
-import org.skypro.skyshop.search.SearchEngine;
-import org.skypro.skyshop.search.Searchable;
-import org.skypro.skyshop.article.Article;
 
 import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
-        // Обработка исключений при создании продуктов
-        try {
-            Product invalidProduct = new SimpleProduct("", 50);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: " + e.getMessage());
-        }
-
-        try {
-            Product invalidPriceProduct = new SimpleProduct("Invalid Price", -10);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: " + e.getMessage());
-        }
-
-        try {
-            Product invalidDiscountProduct = new DiscountedProduct("Invalid Discount", 50, 110);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: " + e.getMessage());
-        }
-
-        // Создание продуктов и статей
-        Product apple = new SimpleProduct("Apple", 50);
-        Product banana = new DiscountedProduct("Banana", 30, 10);
-        Product orange = new FixPriceProduct("Orange");
-        Product mango = new SimpleProduct("Mango", 60);
-        Product pineapple = new DiscountedProduct("Pineapple", 70, 20);
-        Product kiwi = new FixPriceProduct("Kiwi");
+        //       Product apple = new SimpleProduct("Apple", 50);
+        //       Product banana = new DiscountedProduct("Banana", 30,10);
+        //       Product orange = new FixPriceProduct("Orange");
+        //       Product mango = new SimpleProduct("Mango", 60);
+        //       Product pineapple = new DiscountedProduct("Pineapple", 70,20);
+        //       Product kiwi = new FixPriceProduct("Kiwi");
 
         Article appleArticle = new Article("Apple Benefits", "Apples are rich in fiber and vitamins.");
         Article bananaArticle = new Article("Banana Facts", "Bananas are a great source of potassium.");
@@ -103,10 +81,8 @@ public class App {
         System.out.println("Общая стоимость пустой корзины: " + basket.getTotalCost());
         System.out.println();
 
-        System.out.println("Поиск товара 'Apple' в пустой корзине:");
-        System.out.println("Есть ли в корзине Apple? " + basket.containsProduct("Apple"));
-
-        // Удаление продуктов по имени
+        //       System.out.println("Поиск товара 'Apple' в пустой корзине:");
+        //      System.out.println("Есть ли в корзине Apple? " + basket.containsProduct("Apple"));
         List<Product> removedProducts = basket.removeProductByName("Apple");
         System.out.println("\nУдаление продуктов по имени:");
         for (Product product : removedProducts) {
@@ -124,5 +100,11 @@ public class App {
 
         System.out.println("\nСодержимое корзины:");
         basket.printBasket();
+
+        System.out.println("\nРезультаты поиска по запросу 'Apple':");
+        Map<String, Searchable> searchResults = searchEngine.search("Apple");
+        for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
+            System.out.println(entry.getKey() + " — " + entry.getValue().getStringRepresentation());
+        }
     }
 }

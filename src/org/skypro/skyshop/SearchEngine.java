@@ -2,6 +2,7 @@ package org.skypro.skyshop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 public class SearchEngine {
     private final List<Searchable> searchables = new ArrayList<>();
@@ -10,20 +11,17 @@ public class SearchEngine {
         searchables.add(searchable);
     }
 
-    public List<Searchable> findAllMatches(String search) throws BestResultNotFound {
+    public List<Searchable> findBestMatch(String search) throws BestResultNotFound {
         List<Searchable> matches = new ArrayList<>();
         for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(search)) {
-                matches.add(searchable);
+            if (searchable != null && searchable.getSearchTerm().contains(query)) {
+                results.put(searchable.getName(), searchable);
             }
         }
-        if (matches.isEmpty()) {
-            throw new BestResultNotFound("Не найдено подходящего результата для запроса: " + search);
-        }
-        return matches;
+        return results;
     }
 
-     public Searchable findBestMatch(String search) throws BestResultNotFound {
+    public  Searchable findBestMatch (String search) throws  BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = 0;
 
@@ -36,29 +34,11 @@ public class SearchEngine {
                 }
             }
         }
-
         if (bestMatch == null) {
             throw new BestResultNotFound("Не найдено подходящего результата для запроса: " + search);
         }
 
         return bestMatch;
-    }
-
-    public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5];
-        int foundCount = 0;
-
-        for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(query)) {
-                results[foundCount] = searchable;
-                foundCount++;
-                if (foundCount == 5) {
-                    break;
-                }
-            }
-        }
-
-        return results;
     }
 
     private int countOccurrences(String str, String substring) {
