@@ -2,10 +2,8 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductBasket {
     private final Map<String, List<Product>> productsMap = new HashMap<>();
@@ -15,13 +13,10 @@ public class ProductBasket {
     }
 
     public int getTotalCost() {
-        int totalCost = 0;
-        for (List<Product> products : productsMap.values()) {
-            for (Product product : products) {
-                totalCost += product.getPrice();
-            }
-        }
-        return totalCost;
+        return productsMap.values().stream()
+                .flatMap(List::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
     public void printBasket() {
@@ -29,35 +24,32 @@ public class ProductBasket {
             System.out.println("В корзине пусто");
             return;
         }
-        for (Map.Entry<String, List<Product>> entry : productsMap.entrySet()) {
-            for (Product product : entry.getValue()) {
-                System.out.println(product);
-            }
-        }
+
+        // Печатаем все продукты
+        productsMap.values().stream()
+                .flatMap(List::stream)
+                .forEach(System.out::println);
 
         System.out.println("Итого: " + getTotalCost());
-        System.out.println("Специальных товаров: " + specialCount());
+        System.out.println("Специальных товаров: " + getSpecialCount());
     }
-    public int specialCount(){
-        int specialCount = 0;
-        for (List<Product> products : productsMap.values()) {
-            for (Product product : products) {
-                if (product.isSpecial()) {
-                    specialCount++;
-                }
-            }
-        }
-        return specialCount;
+
+    private long getSpecialCount() {
+        return productsMap.values().stream()
+                .flatMap(List::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
+
     public boolean containsProduct(String name) {
-                        return productsMap.containsKey(name);
-            }
+        return productsMap.containsKey(name);
+    }
 
     public void clearBasket() {
         productsMap.clear();
-        }
+    }
 
-        public List<Product> removeProductByName(String name){
-            return productsMap.remove(name);
+    public List<Product> removeProductByName(String name) {
+        return productsMap.remove(name);
     }
 }

@@ -1,27 +1,16 @@
 package org.skypro.skyshop;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
-    private final Set<Searchable> searchables = new HashSet<>();
+    private final List<Searchable> searchables = new ArrayList<>();
 
     public void add(Searchable searchable) {
         searchables.add(searchable);
     }
 
-    public Set<Searchable> search(String query) {
-        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
-        for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(query)) {
-                results.add(searchable);
-            }
-        }
-        return results;
-    }
-
-    public  Searchable findBestMatch (String search) throws  BestResultNotFound {
+    public Searchable findBestMatch(String search) throws BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = 0;
 
@@ -34,6 +23,7 @@ public class SearchEngine {
                 }
             }
         }
+
         if (bestMatch == null) {
             throw new BestResultNotFound("Не найдено подходящего результата для запроса: " + search);
         }
@@ -41,7 +31,18 @@ public class SearchEngine {
         return bestMatch;
     }
 
+    public TreeSet<Searchable> search(String query) {
+        return searchables.stream()
+                .filter(Objects::nonNull)
+                .filter(searchable -> searchable.getSearchTerm().contains(query))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator())));
+    }
+
     private int countOccurrences(String str, String substring) {
+        if (str == null || substring == null || substring.isEmpty()) {
+            return 0;
+        }
+
         int count = 0;
         int index = 0;
         int substringLength = substring.length();

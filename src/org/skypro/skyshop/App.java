@@ -10,6 +10,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class App {
     public static void main(String[] args) {
@@ -122,9 +123,9 @@ public class App {
         basket.printBasket();
 
         System.out.println("\nРезультаты поиска по запросу 'Apple':");
-        Set<Searchable> searchResults = searchEngine.search("Apple");
+        TreeSet<Searchable> searchResults = searchEngine.search("Apple");
         for (Searchable result : searchResults) {
-            System.out.println(result.getStringRepresentation());
+            System.out.println(result.getName() + " — " + result.getStringRepresentation());
         }
     }
 }
