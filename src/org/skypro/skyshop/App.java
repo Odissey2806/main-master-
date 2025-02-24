@@ -4,7 +4,7 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.TreeSet;
 
 public class App {
     public static void main(String[] args) {
@@ -92,10 +92,11 @@ public class App {
         System.out.println("\nСодержимое корзины:");
         basket.printBasket();
 
+        // Результаты поиска по запросу 'Apple'
         System.out.println("\nРезультаты поиска по запросу 'Apple':");
-        Map<String, Searchable> searchResults = searchEngine.search("Apple");
-        for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
-            System.out.println(entry.getKey() + " — " + entry.getValue().getStringRepresentation());
+        TreeSet<Searchable> searchResults = searchEngine.search("Apple");
+        for (Searchable result : searchResults) {
+            System.out.println(result.getName() + " — " + result.getStringRepresentation());
         }
     }
 }

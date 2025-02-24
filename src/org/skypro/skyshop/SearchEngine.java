@@ -1,23 +1,13 @@
 package org.skypro.skyshop;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
-    private final Searchable[] searchables;
-    private int count = 0;
-
-    public SearchEngine(int capacity) {
-        this.searchables = new Searchable[capacity];
-    }
+    private final List<Searchable> searchables = new ArrayList<>();
 
     public void add(Searchable searchable) {
-        if (count < searchables.length) {
-            searchables[count] = searchable;
-            count++;
-        } else {
-            System.out.println("Невозможно добавить элемент: поисковый движок заполнен.");
-        }
+        searchables.add(searchable);
     }
 
     public Searchable findBestMatch(String search) throws BestResultNotFound {
@@ -41,14 +31,11 @@ public class SearchEngine {
         return bestMatch;
     }
 
-    public Map<String, Searchable> search(String query) {
-        Map<String, Searchable> results = new HashMap<>();
-        for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(query)) {
-                results.put(searchable.getName(), searchable);
-            }
-        }
-        return results;
+    public TreeSet<Searchable> search(String query) {
+        return searchables.stream()
+                .filter(Objects::nonNull) // Исключаем null-объекты
+                .filter(searchable -> searchable.getSearchTerm().contains(query)) // Фильтруем по запросу
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator()))); // Собираем в TreeSet с компаратором
     }
 
     private int countOccurrences(String str, String substring) {
