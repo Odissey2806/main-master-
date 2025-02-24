@@ -33,9 +33,9 @@ public class SearchEngine {
 
     public TreeSet<Searchable> search(String query) {
         return searchables.stream()
-                .filter(Objects::nonNull)
-                .filter(searchable -> searchable.getSearchTerm().contains(query))
-                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator())));
+                .filter(Objects::nonNull) // Исключаем null-объекты
+                .filter(searchable -> searchable.getSearchTerm().contains(query)) // Фильтруем по запросу
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator()))); // Собираем в TreeSet с компаратором
     }
 
     private int countOccurrences(String str, String substring) {
