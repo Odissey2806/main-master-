@@ -3,7 +3,6 @@ out/
 out
 .iml
 .idea/
-*.iml
 !**/src/main/**/out/
 !**/src/test/**/out/
 
