@@ -4,7 +4,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SearchEngine {
-    private final List<Searchable> searchables = new ArrayList<>();
+    private final List<Searchable> searchables;
+
+    public SearchEngine(int capacity) {
+        this.searchables = new ArrayList<>(capacity);
+    }
 
     public void add(Searchable searchable) {
         searchables.add(searchable);
